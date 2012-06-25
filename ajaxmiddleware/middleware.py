@@ -26,7 +26,10 @@ class AjaxMiddleware(object):
             If we get more than 2 arguments in the func_closure, then it's a
             redirection like a login for a permission_required decored view
             """
-            module = callback.func_closure[1].cell_contents.__module__
+            if hasattr(callback.func_closure[1].cell_contents, '__module__'):
+                module = callback.func_closure[1].cell_contents.__module__
+            else:
+                module = callback.func_closure[0].cell_contents.__module__
             func_name = callback.func_name
 
             try:
